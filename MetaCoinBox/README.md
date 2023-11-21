@@ -30,4 +30,25 @@ truffle develop
 ```
 
 #### Note that : : By difault, `truffle migrate` will also run `truffle migrate`. So you can simply run : : 
- `migrate`
+
+```sh
+migrate
+```
+#### This shows the transaction IDs and addresses of your deployed contracts. It also includes a cost summary and real-time status updates.
+
+#### Migrate with Truffle Console
+
+```sh
+# truffle-config.js
+
+module.exports = {
+    networks: {
+        development: {
+            host: "127.0.0.1",
+            port: 7545,
+            network_id: ""
+        }
+    }
+};
+```
+
