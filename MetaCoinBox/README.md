@@ -1,3 +1,5 @@
+### Author : @Jonas-sebera
+
 ### About
 These are application templates that create token that can be transferred btn accounts.
 
@@ -125,3 +127,6 @@ and the run console using
 --network dashboard
 ```
 
+<hr>
+
+@Jonas-sebera
