@@ -1,4 +1,4 @@
-build/contracts
+build/
 env
 coverage
 artifacts
