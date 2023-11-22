@@ -21,7 +21,7 @@ contract MailBox {
     }
 
     function getAddress() public view returns(address) {
-        return address;
+        return senderAddress;
 
     }
 
