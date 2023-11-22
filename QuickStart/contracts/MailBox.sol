@@ -4,8 +4,17 @@ pragma solidity ^0.8.19;
 contract MailBox {
     string public mail;
     uint public mailCount;
-    bool siInitialMail;
+    bool isInitialMail;
     address senderAddress;
 
-    
+    constructor(string memory initialMail) {
+        mail= initialMail;
+        isInitialMail = true;
+        mailCount++;
+        senderAddress = msg.sender;
+    }
+
+    function setMail()
+
+
 }
