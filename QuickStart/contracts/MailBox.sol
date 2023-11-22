@@ -14,7 +14,16 @@ contract MailBox {
         senderAddress = msg.sender;
     }
 
-    function setMail()
+    function setMail(string memory newMail) public {
+        mail = newMail;
+        isInitialMail = false;
+        mailCount++;
+    }
+
+    function getAddress() public view returns(address) {
+        return address;
+
+    }
 
 
 }
