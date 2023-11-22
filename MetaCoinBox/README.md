@@ -85,3 +85,43 @@ Begin by,
 truffle(development)> let instance = await MetaCoin.deployed();
 truffle(development)> let accounts = await web3.eth.getAccounts()
 ```
+
+check the metacoin balance that deployed contract
+
+```sh
+truffle(development)> let balance = await instance.getBalance(accounts[0])
+truffle(development)> balance.toNumber()
+```
+
+check how much ether that balance is worth
+```sh
+truffle(development)> let ether = await instance.getBalance(accounts[0])
+truffle(development)> ether.toNumber()
+```
+
+Transfer some metacoin from onr account to another
+```sh
+truffle(development)> instance.sendCoin(accounts[1], 500)
+```
+
+CHeck the balance of the account that received ether
+```sh
+truffle(development)> let received = await instance.getBalance(accounts[1])
+truffle(development)> received.toNumber()
+```
+
+Check the balance of the account that sent ether
+```sh
+truffle(development)> let newBalance = await instance.getBalance(accounts[0])
+truffle(development)> newBalance.toNumber()
+```
+
+Deploy to mainnet, testnet and beyond
+```sh
+truffle dashboard
+```
+and the run console using
+```sh
+--network dashboard
+```
+
