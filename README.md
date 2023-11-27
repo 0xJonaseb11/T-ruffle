@@ -9,7 +9,7 @@ It is a local blockchain simulator with the help of which you can run a local bl
 
 #### Getting started
 
-Connect to ganache-cli
+Connect and deploy to ganache-cli - blockchain simulator.
 ```sh
 truffle migrate --reset
 ```
