@@ -13,6 +13,14 @@ module.exports = {
       network_id: "*" // Match any network id
     }
   },
+
+  sepolia: {
+    provider: () = new HDWalletProvider(MNEMONIC, `https://eth-sepolia.g.alchemy.com/v2/${PROJECT_ID}`),
+    network_id: 5,
+    confirmations: 2,
+    timeoutBlocks: 200,
+    skipDryRun: true
+  },
   compilers: {
     solc: {
       version: "^0.8.21"
