@@ -1,8 +1,8 @@
 module.exports = {
   networks: {
     development: {
-      host: "127.0.0.1",
-      port: 8545,
+      host: "127.0.0.1", // loalhost
+      port: 8545, // avoid collision of ports.
       network_id: "*" // Match any network id
     }
   },
