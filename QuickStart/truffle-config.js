@@ -1,6 +1,8 @@
 require('dotenv').config();
 const { MNEMONIC, PROJECT_ID } = process.env;
 
+// wallet provider
+const HDWalletProvider = require('@truffle/hdWallet-provider');
 
 
 module.exports = {
