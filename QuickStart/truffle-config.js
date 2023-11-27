@@ -15,7 +15,7 @@ module.exports = {
   },
 
   sepolia: {
-    provider: () = new HDWalletProvider(MNEMONIC, `https://eth-sepolia.g.alchemy.com/v2/${PROJECT_ID}`),
+    provider: () => new HDWalletProvider(MNEMONIC, `https://eth-sepolia.g.alchemy.com/v2/${PROJECT_ID}`),
     network_id: 5,
     confirmations: 2,
     timeoutBlocks: 200,
