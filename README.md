@@ -13,6 +13,11 @@ Connect and deploy to ganache-cli - blockchain simulator.
 ```sh
 truffle migrate --reset
 ```
+
+deploy to a real blockchain network
+```sh
+truffle migrate --network sepolia --reset
+```
 <hr>
 
 ### @Jonas-sebera
