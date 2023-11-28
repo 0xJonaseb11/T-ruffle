@@ -13,7 +13,8 @@ module.exports = {
   //     network_id: "*" // Match any network id
   //   }
   // },
-
+   
+  // wss://eth-sepolia.g.alchemy.com/v2/DUAQaE28zjWfOz2a7CpeBV_Jvb_gTtkP
   sepolia: {
     provider: () => new HDWalletProvider(MNEMONIC, `https://eth-sepolia.g.alchemy.com/v2/${PROJECT_ID}`),
     network_id: 11155111,
