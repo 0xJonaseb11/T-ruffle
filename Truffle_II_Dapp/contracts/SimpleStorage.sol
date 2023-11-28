@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 contract SimpleStorage {
-    uint256 1;
+    uint256 a;
 
     function setter(uint256 _a) public {
         a = _a;
