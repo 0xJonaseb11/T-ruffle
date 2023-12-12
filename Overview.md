@@ -10,4 +10,5 @@
     truffle version
     truffle init
     ```
-    
+ ### Migrations 
+     
