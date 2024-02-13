@@ -2,3 +2,8 @@
 coverage
 artifacts
 .vscode
+
+# compiler files
+out
+cache
+build
