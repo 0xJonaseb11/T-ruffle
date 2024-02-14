@@ -1,7 +1,7 @@
 {
   "name": "pet-shop",
   "version": "1.0.0",
-  "description": "Pet-shop dapp",
+  "description": "",
   "main": "truffle.js",
   "directories": {
     "test": "test"

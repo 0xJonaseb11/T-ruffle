@@ -24,50 +24,47 @@ App = {
   },
 
   initWeb3: async function() {
-
-  // modern dapp browsers
- if (window.ethereum) {
-  App.web3Provider = window.ethereum;
-  try {
-    // Request account access
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    if (accounts.length > 0) {
-      App.account = accounts[0];
-      console.log("Account connected", App.account);
-    } else {
-      console.log("No accounts connected");
+    // Modern dapp browsers...
+    if (window.ethereum) {
+      App.web3Provider = window.ethereum;
+      try {
+        // Request account access
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        if (accounts.length > 0) {
+          App.account = accounts[0];
+          console.log("Account connected", App.account);
+        } else {
+          console.log("No accounts connected");
+        }
+      } catch (error) {
+        console.error("User denied account access", error);
+      }
+     }
+    // Legacy dapp browsers
+    else if (window.web3) {
+      App.web3Provider = window.web3.currentProvider;
     }
-  } catch (error) {
-    console.error("User denied account access", error);
-  }
- }
-// Legacy dapp browsers
-else if (window.web3) {
-  App.web3Provider = window.web3.currentProvider;
-}
-// If no web3 instance is detected, fallback to ganache
-else {
-  App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
-}
-
-web3 = new Web3(App.web3Provider);
+    // If no web3 instance is detected, fallback to ganache
+    else {
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
+    }
+        
+    web3 = new Web3(App.web3Provider);
 
     return App.initContract();
   },
 
   initContract: function() {
-
     $.getJSON('Adoption.json', function(data) {
-      // get the necessary contract artifact file and instantiate it with @truffle/contract library
+      // Get the necessary contract artifact file and instantiate it with truffle-contract
       var AdoptionArtifact = data;
       App.contracts.Adoption = TruffleContract(AdoptionArtifact);
 
-      // set the provider for our contract
+      // Set the provider for our contract
       App.contracts.Adoption.setProvider(App.web3Provider);
 
-      // Use our contract to adopt and mark adopted pets
+      // Use our contract to retrieve and mark the adopted pets
       return App.markAdopted();
-
     });
 
     return App.bindEvents();
@@ -77,21 +74,21 @@ web3 = new Web3(App.web3Provider);
     $(document).on('click', '.btn-adopt', App.handleAdopt);
   },
 
-  markAdopted: function() {
+  markAdopted: function(adopters, account) {
     var adoptionInstance;
+
     App.contracts.Adoption.deployed().then(function(instance) {
       adoptionInstance = instance;
-      
+
       return adoptionInstance.getAdopters.call();
-    })
-    .then(function(adopters) {
-      for (var i = 0; i < adopters.length; i++) {
+    }).then(function(adopters) {
+      for (i = 0; i < adopters.length; i++) {
         if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
           $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
         }
       }
     }).catch(function(err) {
-      console.error(err.message);
+      console.log(err.message);
     });
   },
 
@@ -101,7 +98,7 @@ web3 = new Web3(App.web3Provider);
     var petId = parseInt($(event.target).data('id'));
 
     var adoptionInstance;
-    
+
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
         console.log(error);
@@ -112,17 +109,16 @@ web3 = new Web3(App.web3Provider);
       App.contracts.Adoption.deployed().then(function(instance) {
         adoptionInstance = instance;
 
-        // Execute adopt  a transaction by sending account
-        return adoptionInstance.adopt(petId, { from: accounts[0] });
-      })
-      .then(function(result) {
+        // Execute adopt as a transaction by sending account
+        return adoptionInstance.adopt(petId, {from: account});
+      }).then(function(result) {
         return App.markAdopted();
       }).catch(function(err) {
         console.log(err.message);
       });
     });
-    window.location.reload();
   }
+
 };
 
 $(function() {
@@ -130,4 +126,3 @@ $(function() {
     App.init();
   });
 });
-
