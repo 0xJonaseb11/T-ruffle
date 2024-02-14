@@ -94,9 +94,27 @@ web3 = new web3(App.web3Provider);
 
     var petId = parseInt($(event.target).data('id'));
 
-    /*
-     * Replace me...
-     */
+    var adoptionInstance;
+    
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Adoption.deployed().then(function(instance) {
+        adoptionInstance = instance;
+
+        // Execute adopt  a transaction by sending account
+        return adoptionInstance.adopt(petId, { from: accounts[0] });
+      })
+      .then(function(result) {
+        return App.markAdopted();
+      }).catch(function(error) {
+        console.log(err.message);
+      });
+    });
   }
 
 };
