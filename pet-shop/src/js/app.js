@@ -38,7 +38,7 @@ App = {
 }
 // Legacy dapp browsers
 else if (window.web3) {
-  App.web3Provider = window.web3.currentProvide;
+  App.web3Provider = window.web3.currentProvider;
 }
 // If no web3 instance is detected, fallback to ganache
 else {
@@ -62,7 +62,7 @@ web3 = new web3(App.web3Provider);
       // Use our contract to adopt and mark adopted pets
       return App.markAdopted();
 
-    })
+    });
 
     return App.bindEvents();
   },
@@ -81,7 +81,7 @@ web3 = new web3(App.web3Provider);
     .then(function(adopters) {
       for (var i = 0; i < adopters.length; i++) {
         if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-          $('.panel-pet').eq(i).find('button').text('success').attr('disabled', true);
+          $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
         }
       }
     }).catch(function(err) {
@@ -111,7 +111,7 @@ web3 = new web3(App.web3Provider);
       })
       .then(function(result) {
         return App.markAdopted();
-      }).catch(function(error) {
+      }).catch(function(err) {
         console.log(err.message);
       });
     });
@@ -124,3 +124,4 @@ $(function() {
     App.init();
   });
 });
+

@@ -1,0 +1,16 @@
+# compiler files
+cache
+out
+build
+
+# tests
+coverage
+
+# .env
+.env
+
+# vscode
+.vscode
+
+# dependencies
+node_modules
