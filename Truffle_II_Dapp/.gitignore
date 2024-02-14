@@ -1,11 +1,10 @@
 # compiler files
-build/
-artifacts
 out
 cache
-
-# test
-coverage
+build
 
 # dependencies
 node_modules
+
+# test
+coverage

@@ -1,2 +1,11 @@
+# .env
 .env
+
+# compiler files
+out
+cache
+artifacts
 build
+
+# dependencies
+node_modules
