@@ -1,7 +1,7 @@
 # compiler files
 cache
 out
-build
+
 
 # tests
 coverage
