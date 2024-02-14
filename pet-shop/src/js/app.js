@@ -26,25 +26,31 @@ App = {
   initWeb3: async function() {
 
   // modern dapp browsers
-  if (window.ethereum) {
+ if (window.ethereum) {
   App.web3Provider = window.ethereum;
   try {
     // Request account access
-    await window.ethereum.enable();
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    if (accounts.length > 0) {
+      App.account = accounts[0];
+      console.log("Account connected", App.account);
+    } else {
+      console.log("No accounts connected");
+    }
   } catch (error) {
-    // user denied account access
-    console.error("User denied account access");
+    console.error("User denied account access", error);
   }
-}
+ }
 // Legacy dapp browsers
 else if (window.web3) {
   App.web3Provider = window.web3.currentProvider;
 }
 // If no web3 instance is detected, fallback to ganache
 else {
-  App.web3Provider = new web3.providers.HttpProvider('http://localhost:7545')
+  App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
 }
-web3 = new web3(App.web3Provider);
+
+web3 = new Web3(App.web3Provider);
 
     return App.initContract();
   },
@@ -115,8 +121,8 @@ web3 = new web3(App.web3Provider);
         console.log(err.message);
       });
     });
+    window.location.reload();
   }
-
 };
 
 $(function() {

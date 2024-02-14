@@ -1,6 +1,7 @@
 # compiler files
 cache
 out
+artifacts
 
 
 # tests
