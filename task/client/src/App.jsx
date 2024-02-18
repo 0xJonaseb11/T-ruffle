@@ -1,24 +1,34 @@
-import { EthProvider } from "./contexts/EthContext";
-import Intro from "./components/Intro/";
-import Setup from "./components/Setup";
-import Demo from "./components/Demo";
-import Footer from "./components/Footer";
+import React, {useState, useEffect } from 'react';
+import { getCurrentMessage, setMessage } from "./components/ContractFunctions.jsx";
+import { ConnectWallet } from "./components/EthereumObject.jsx";
 
-function App() {
+const App = () => {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    loadMessage();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadMessage = async () => {
+    const newMessage = prompt("Enter new message");
+
+    if (newMessage) {
+      await setMessage(newMessage);
+      loadMessage();
+    }
+  };
+
+  const updateMessage = () => {
+    < ConnectWallet/>
+
+  }
   return (
-    <EthProvider>
-      <div id="App">
-        <div className="container">
-          <Intro />
-          <hr />
-          <Setup />
-          <hr />
-          <Demo />
-          <hr />
-          <Footer />
-        </div>
-      </div>
-    </EthProvider>
+    <div>
+      <h1>Hello World, Jonas</h1>
+    <p>Current Message: {message}</p>
+    <button onClick={updateMessage}> Update message</button>
+    </div>
   );
 }
 
