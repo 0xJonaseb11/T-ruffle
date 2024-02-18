@@ -1,31 +1,46 @@
-### Author : @Jonas-sebera
+# T-Ruffle
 
-### About 
+_**Author: @Jaz-3-0**_
+
+## About
+
 Complete path to learning truffle framework | Biginner to Expert
 
 ### Tools
-   Ganache
+
+- Ganache
+
 It is a local blockchain simulator with the help of which you can run a local blockchain on you system.
 
-#### Ganache vs Testnet
+_**Ganache vs Testnet**_
+
 | Ganache     | Testnet       |
 |----------   |-----------    |
 | Centralized | Decentralized |
 | Migration   | Migration     |
 | time is less| time is more  |
--------------------------------                 
-      
+-------------------------------
+
 #### Getting started
 
-Connect and deploy to ganache-cli - blockchain simulator.
 ```sh
+# Install Truffle and Ganache globally.
+$ npm install -g truffle ganache
+truffle --version
+```
+
+```sh
+# Connect and deploy to ganache-cli - blockchain simulator.
+
 truffle migrate --reset
 ```
 
-deploy to a real blockchain network
 ```sh
+deploy to a real blockchain network
+
 truffle migrate --network sepolia --reset
 ```
-<hr>
+
+------------------------------
 
 ### @Jonas-sebera

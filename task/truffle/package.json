@@ -1,9 +1,11 @@
 {
   "name": "truffle-project",
   "version": "0.1.0",
-  "description": "Truffle project with SimpleStorage contract",
+  "description": "Truffle project with HelloWorld contract",
   "scripts": {
-    "test": "truffle test"
+    "test": "truffle test",
+    "compile": "truffle compile",
+    "migrate": "truffle migrate"
   },
   "dependencies": {
     "@truffle/hdwallet-provider": "^2.1.7"
