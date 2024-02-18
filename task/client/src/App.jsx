@@ -2,7 +2,11 @@ import React, {useState, useEffect } from 'react';
 import { getCurrentMessage, setMessage } from "./components/ContractFunctions.jsx";
 import { ConnectWallet } from "./components/EthereumObject.jsx";
 
+
 const App = () => {
+  
+  <ConnectWallet>Connect</ConnectWallet>
+  
   const [message, setMessage] = useState('');
 
   useEffect(() => {

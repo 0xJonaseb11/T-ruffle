@@ -1,6 +1,6 @@
 import React from "react";
 
-import Web3 from 'wev3'
+import Web3 from 'web3'
 
 let web3;
 
