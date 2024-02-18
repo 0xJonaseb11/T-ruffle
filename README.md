@@ -36,11 +36,11 @@ truffle migrate --reset
 ```
 
 ```sh
-deploy to a real blockchain network
+# deploy to a real blockchain network
 
 truffle migrate --network sepolia --reset
 ```
 
-------------------------------
+----------
 
-### @Jonas-sebera
+@Jonas-sebera
