@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
-import HelloWorldContract from './contracts/HelloWorld.json'; // Assuming you have the contract ABI
+import HelloWorldContract from './contracts/HelloWorld.json';
 
 const App = () => {
   const [web3, setWeb3] = useState(null);

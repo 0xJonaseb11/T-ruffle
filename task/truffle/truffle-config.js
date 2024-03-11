@@ -3,7 +3,7 @@ module.exports = {
   // for more about customizing your Truffle configuration!
   compilers: {
     solc: {
-      version: "0.8.19",
+      version: "0.8.20",
     },
   },
   networks: {
