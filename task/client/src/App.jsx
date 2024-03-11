@@ -1,108 +1,72 @@
-import React, { useState } from 'react';
-import { contractABI, contractAddress } from "./components/utils/constants.jsx";
-import Ethereum from "./components/Ethereum.jsx";
-
-import web3 from 'web3';
-
-
+import React, { useState, useEffect } from 'react';
+import Web3 from 'web3';
+import HelloWorldContract from './contracts/HelloWorld.json'; // Assuming you have the contract ABI
 
 const App = () => {
-  
-  const user = "user_name"; 
-  const Web3 = window.ethereum;
+  const [web3, setWeb3] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [currentMessage, setCurrentMessage] = useState('');
+  const [newMessage, setNewMessage] = useState('');
+  const [account, setAccount] = useState(null);
 
-  const web3 = new Web3('http://localhost:7545');
-
-  const { ethereum } = window;
-  const [message, setMessage] = useState(`Hello, ${user}`);
-
-  const InitConnect = async () => {
-    if (!ethereum) {
-      return alert("Metamask is not installed. Please try installing it to connect your wallet!");
-    }
-    if (ethereum) {
-      try {
-        await window.ethereum.request({method: 'eth_requestAccounts'});
-        alert ("Connected to Metamask successfully");
-
-        // More account[0] details
-      } catch (error) {
-        console.error("Error while connecting to Metamask!", error);
-        alert("Failed to connect to metamask. Please check your browser Metamask extension");
+  useEffect(() => {
+    const init = async () => {
+      // Connect to MetaMask or other Ethereum provider
+      if (window.ethereum) {
+        try {
+          await window.ethereum.enable();
+          const web3Instance = new Web3(window.ethereum);
+          setWeb3(web3Instance);
+          const networkId = await web3Instance.eth.net.getId();
+          const deployedNetwork = HelloWorldContract.networks[networkId];
+          const contractInstance = new web3Instance.eth.Contract(
+            HelloWorldContract.abi,
+            deployedNetwork && deployedNetwork.address,
+          );
+          setContract(contractInstance);
+          const accounts = await web3Instance.eth.getAccounts();
+          setAccount(accounts[0]);
+        } catch (error) {
+          console.error(error);
+        }
       }
-    } else {
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
-    }
-  };
+    };
 
-  const getEthereumContract = () => {
-    const provider = new Web3.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner();
-    const helloWorldContract = new Web3.Contract(contractAddress, contractABI, signer);
+    init();
+  }, []);
 
-    return helloWorldContract;
-  };
-
-  const getAllMessages = async () => {
-    try {
-      if (!ethereum) return alert("Metamask is not installed");
-      
-      const helloWorldContract = getEthereumContract();
-      const availableMessages = await helloWorldContract.getAllMessages();
-
-      const structuredMessages = availableMessages.map((message) => ({
-        messageTo: message.receiver,
-        messageFrom: message.sender,
-        message: message.message,
-        messageId: message.id,
-        timeStamp: new Date(message.timeStamp.toNumber() * 1000).toLocaleString(),
-      }));
-
-      console.log(structuredMessages);
-      console.log(availableMessages);
-
-      setMessage(structuredMessages);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  
-  // eslint-disable-next-line no-unused-vars
-  const loadMessage = async () => {
-    const newMessage = prompt("Enter new message");
-
-    if (newMessage) {
-      setMessage(newMessage);
-      loadMessage();
-      getAllMessages();
-    }
-  };
-
-  const UpdateWallet = () => {
-    if (!ethereum) return alert("Metamask is not installed");
-  
-    if (window.ethereum) {
-      try {
-        InitConnect();
-        alert("Successfully connected to metamask")
-      } catch (error) {
-        console.error("Wallet connection failed");
+  useEffect(() => {
+    const fetchCurrentMessage = async () => {
+      if (contract) {
+        const message = await contract.methods.getCurrentMessage().call();
+        setCurrentMessage(message);
       }
-    } else {
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+    };
+
+    fetchCurrentMessage();
+  }, [contract]);
+
+  const setMessage = async () => {
+    if (contract && account) {
+      try {
+        await contract.methods.setMessage(newMessage).send({ from: account });
+        setCurrentMessage(newMessage);
+        setNewMessage('');
+      } catch (error) {
+        console.error(error);
+      }
     }
-    
-    setMessage(message);
   };
 
   return (
     <div>
-      <h1>Hello World, {user}</h1>
-      <p>Current Message: {message}</p>
-      <button onClick={UpdateWallet}>Connect Wallet</button>
-      <Ethereum />
-      <Ethereum />
+      <h1>Current Message: {currentMessage}</h1>
+      <input
+        type="text"
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+      />
+      <button onClick={setMessage}>Set Message</button>
     </div>
   );
 };
