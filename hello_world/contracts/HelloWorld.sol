@@ -1,21 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-contract HelloWorld {
+contract HelloWord {
     
     // state variables
     string public greeting;
 
     constructor () {
-        
-        greeting = "Hello, world!";
+        greeting = "Hello world";
     }
 
     function getGreeting() public view returns(string memory) {
         return greeting;
     }
 
-    function setGreeting(string calldata _newGreeting) public {
+    function setGreeting(string memory _newGreeting) public {
         greeting = _newGreeting;
     }
 
