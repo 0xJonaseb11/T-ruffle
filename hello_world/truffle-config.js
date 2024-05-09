@@ -1,15 +1,18 @@
 module.exports = {
+  // See <http://truffleframework.com/docs/advanced/configuration>
+  // for more about customizing your Truffle configuration!
   networks: {
     development: {
       host: "127.0.0.1",
       port: 7545,
-      network_id: "*",
-      gas: 8000000 // Increase gas limit
-    }
-  },
-  compilers: {
-    solc: {
-      version: "^0.8.0"
+      network_id: "*" // Match any network id
     }
   }
+  ,
+  compilers: {
+    solc: {
+      version: "0.8.0", // Specify the desired Solidity version
+    },
+  },
+  
 };
