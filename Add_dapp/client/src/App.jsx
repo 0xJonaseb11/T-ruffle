@@ -1,82 +1,69 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./App.css";
 import Web3 from "web3";
-import AdditionContract from "./Addition.json";
+import AdditionContract from "./Addition.json"; // Import your contract JSON
 
-const App = () => {
-  const [web3, setWeb3] = useState(null);
+function App() {
+  const [num1, setNum1] = useState(0);
+  const [num2, setNum2] = useState(0);
+  const [result, setResult] = useState(0);
   const [contract, setContract] = useState(null);
-  const [number1, setNumber1] = useState("");
-  const [number2, setNumber2] = useState("");
-  const [result, setResult] = useState("");
-  const [account, setAccount] = useState("");
 
   useEffect(() => {
-    const initializeWeb3 = async () => {
-      if (window.ethereum) {
-        const web3Instance = new Web3(window.ethereum);
-        try {
+    async function init() {
+      try {
+        // Initialize Web3
+        if (window.ethereum) {
+          window.web3 = new Web3(window.ethereum);
           await window.ethereum.enable();
-          setWeb3(web3Instance);
-
-          const accounts = await web3Instance.eth.getAccounts();
-          setAccount(accounts[0]);
-
-          const networkId = await web3Instance.eth.net.getId();
-          const deployedNetwork = AdditionContract.networks[networkId];
-
-          if (deployedNetwork) {
-            const contractInstance = new web3Instance.eth.Contract(
-              AdditionContract.abi,
-              deployedNetwork.address
-            );
-            setContract(contractInstance);
-
-            const result = await contractInstance.methods.retrieveResult().call();
-            setResult(result);
-          } else {
-            console.log("Smart contract not deployed to the detected network.");
-          }
-        } catch (error) {
-          console.log("Error connecting to MetaMask or getting account information", error);
+        } else if (window.web3) {
+          window.web3 = new Web3(window.web3.currentProvider);
+        } else {
+          console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
         }
-      } else {
-        console.log("Ethereum browser not detected! Consider installing MetaMask instead!!");
-      }
-    };
 
-    initializeWeb3();
+        // Initialize contract
+        const networkId = await window.web3.eth.net.getId();
+        const deployedNetwork = AdditionContract.networks[networkId];
+        const instance = new window.web3.eth.Contract(
+          AdditionContract.abi,
+          deployedNetwork && deployedNetwork.address
+        );
+        setContract(instance);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+    init();
   }, []);
 
   const handleAddition = async () => {
-    if (!contract || !number1 || !number2) return;
     try {
-      await contract.methods.add(parseInt(number1), parseInt(number2)).send({ from: account });
-      const updatedResult = await contract.methods.retrieveResult().call();
-      setResult(updatedResult);
+      await contract.methods.add(num1, num2).send({ from: window.web3.eth.defaultAccount });
+      const newResult = await contract.methods.retrieveResult().call();
+      setResult(newResult);
     } catch (error) {
-      console.log("Error adding numbers:", error);
+      console.error("Error:", error);
     }
-  };
-
-  const handleNumber1Change = (event) => {
-    setNumber1(event.target.value);
-  };
-
-  const handleNumber2Change = (event) => {
-    setNumber2(event.target.value);
   };
 
   return (
     <div className="App">
-      <h1>Want to add some positive numbers??</h1>
-      <h1>Please Enter Two positive numbers:</h1>
-      <input type="number" value={number1} onChange={handleNumber1Change} />
-      <br />
-      <input type="number" value={number2} onChange={handleNumber2Change} />
+      <h1>Simple Addition DApp</h1>
+      <input
+        type="number"
+        value={num1}
+        onChange={(e) => setNum1(parseInt(e.target.value))}
+      />
+      <input
+        type="number"
+        value={num2}
+        onChange={(e) => setNum2(parseInt(e.target.value))}
+      />
       <button onClick={handleAddition}>Add</button>
       <div>Result: {result}</div>
     </div>
   );
-};
+}
 
 export default App;

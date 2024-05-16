@@ -3,17 +3,11 @@ pragma solidity ^0.8.19;
 
 contract Addition {
 
-    // state variables
+    // state variable
     uint256 public result;
-    address public owner;
-
-    modifier onlyOwner {
-        require(msg.sender == owner, "Only owner can call this function");
-        _;
-    }
 
     // add operation
-    function add(uint256 _num1, uint256 _num2) public /*onlyOwner*/ {
+    function add(uint256 _num1, uint256 _num2) public {
         result = _num1 + _num2;
     }
 
