@@ -8,6 +8,7 @@ const App = () => {
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
   const [result, setResult] = useState("");
+  const [newResult, setNewResult] = useState();
   const [account, setAccount] = useState();
 
   useEffect(() => {
@@ -44,8 +45,32 @@ const App = () => {
   };
   
   initializeWeb3();
-}, []);
+ }, []);
 
+ const handleAddition = async() => {
+  if (!contract) return;
+    try {
+      await contract.methods.setResult(result).send({from: account});
+      const updatedResult = await contract.methods.retrieveResult().call();
+      setResult(updatedResult);
+    } catch (error) {
+      console.log("Error getting result of provided numbers!!", error);
+    }
+ };
+
+
+  const handleInputChange = ((event) => {
+   setResult(event.target.value);
+  });
+
+  return (
+    <div className="App">
+      <h1 style>Want to add some positive numbers??</h1>
+      <h1>Please Enter Two positive numbers:</h1>
+      <input type="number" value={result} onChange={handleInputChange}/>
+      <button onClick={handleAddition}>Add</button>
+    </div>
+  );
 }
 
 export default App;
