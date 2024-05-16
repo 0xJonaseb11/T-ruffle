@@ -4,8 +4,8 @@ import Web3 from "web3";
 import AdditionContract from "./Addition.json"; // Import your contract JSON
 
 function App() {
-  const [num1, setNum1] = useState(0);
-  const [num2, setNum2] = useState(0);
+  const [_num1, setNum1] = useState(0);
+  const [_num2, setNum2] = useState(0);
   const [result, setResult] = useState(0);
   const [contract, setContract] = useState(null);
 
@@ -34,13 +34,13 @@ function App() {
         console.error("Error:", error);
       }
     }
-    
+
     init();
   }, []);
 
   const handleAddition = async () => {
     try {
-      await contract.methods.add(num1, num2).send({ from: window.web3.eth.defaultAccount });
+      await contract.methods.add(_num1, _num2).send({ from: window.web3.eth.defaultAccount });
       const newResult = await contract.methods.retrieveResult().call();
       setResult(newResult);
     } catch (error) {
@@ -53,12 +53,12 @@ function App() {
       <h1>Simple Addition DApp</h1>
       <input
         type="number"
-        value={num1}
+        value={_num1}
         onChange={(e) => setNum1(parseInt(e.target.value))}
       />
       <input
         type="number"
-        value={num2}
+        value={_num2}
         onChange={(e) => setNum2(parseInt(e.target.value))}
       />
       <button onClick={handleAddition}>Add</button>
