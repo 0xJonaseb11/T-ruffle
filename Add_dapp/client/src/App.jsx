@@ -24,7 +24,9 @@ function App() {
 
         // Initialize contract
         const networkId = await window.web3.eth.net.getId();
+        console.log("Network ID:", networkId);
         const deployedNetwork = AdditionContract.networks[networkId];
+        console.log("Deployed Network:", deployedNetwork);
         const instance = new window.web3.eth.Contract(
           AdditionContract.abi,
           deployedNetwork && deployedNetwork.address
@@ -40,7 +42,12 @@ function App() {
 
   const handleAddition = async () => {
     try {
-      await contract.methods.add(_num1, _num2).send({ from: window.web3.eth.defaultAccount });
+      if (!contract) {
+        console.error("Contract not initialized!");
+        return;
+      }
+
+      await contract.methods.add(_num1, _num2).send({ from: "0x53298B7Af38945A04352C68F0D652FC875992D0e" }); // Replace with your Ethereum account address
       const newResult = await contract.methods.retrieveResult().call();
       setResult(newResult);
     } catch (error) {
