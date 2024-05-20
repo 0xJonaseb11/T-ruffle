@@ -46,14 +46,19 @@ function App() {
         console.error("Contract not initialized!");
         return;
       }
-
-      await contract.methods.add(_num1, _num2).send({ from: "0x53298B7Af38945A04352C68F0D652FC875992D0e" }); // Replace with your Ethereum account address
+  
+      // Send the transaction to add the numbers
+      await contract.methods.add(_num1, _num2).send({ from: "0x53298B7Af38945A04352C68F0D652FC875992D0e" });
+  
+      // Retrieve the result after the transaction is mined
       const newResult = await contract.methods.retrieveResult().call();
       setResult(newResult);
+      console.log(newResult)
     } catch (error) {
       console.error("Error:", error);
     }
   };
+  
 
   return (
     <div className="App">
@@ -66,6 +71,7 @@ function App() {
       <input
         type="number"
         value={_num2}
+
         onChange={(e) => setNum2(parseInt(e.target.value))}
       />
       <button onClick={handleAddition}>Add</button>
