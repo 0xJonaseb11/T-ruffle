@@ -11,6 +11,7 @@ contract Addition {
         result = _num1 + _num2;
     }
 
+    // Retrieve result
     function retrieveResult() public view returns(uint256) {
         return result;
     }
