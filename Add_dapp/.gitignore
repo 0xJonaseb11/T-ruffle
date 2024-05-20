@@ -1,0 +1,7 @@
+# compiler files
+cache
+out
+build
+
+# .env
+.env
