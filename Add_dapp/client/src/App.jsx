@@ -23,17 +23,28 @@ const App = () => {
         return;
       }
       setWeb3(web3);
+
+      // debug
+      console.log('Web3 instance:', web3);
     };
 
     const loadBlockchainData = async (web3) => {
       const accounts = await web3.eth.getAccounts();
+      // debug
+      console.log('Accounts:', accounts);
       setAccount(accounts[0]);
       const networkId = await web3.eth.net.getId();
+      // debug
+      console.log('Network ID:', networkId);
+
       const networkData = AdditionContract.networks[networkId];
       if (networkData) {
         const abi = AdditionContract.abi;
         const address = networkData.address;
         const contract = new web3.eth.Contract(abi, address);
+        // debug
+        console.log('Contract:', contract);
+
         setContract(contract);
       } else {
         alert('Smart contract not deployed to detected network.');
