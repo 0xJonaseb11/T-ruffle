@@ -48,7 +48,7 @@ function App() {
       }
   
       // Send the transaction to add the numbers
-      await contract.methods.add(_num1, _num2).send({ from: "0x53298B7Af38945A04352C68F0D652FC875992D0e" });
+      await contract.methods.add(_num1, _num2).send({ from: "0x53298B7Af38945A04352C68F0D652FC875992D0E" });
   
       // Retrieve the result after the transaction is mined
       const newResult = await contract.methods.retrieveResult().call();
