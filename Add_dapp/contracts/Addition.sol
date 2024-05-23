@@ -2,9 +2,14 @@
 pragma solidity ^0.8.19;
 
 contract Addition {
-    
-    // Function to add two numbers and return the sum
-    function add(uint256 num1, uint256 num2) public view returns (uint256) {
-        return num1 + num2;
-    }
+
+  uint256 public result;
+
+  function add(uint256 num1, uint256 num2) public {
+    result = num1 + num2;
+  }
+
+  function getSum() public view returns(uint256) {
+    return result;
+  }
 }
