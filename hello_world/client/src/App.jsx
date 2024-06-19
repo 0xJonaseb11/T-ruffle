@@ -45,7 +45,7 @@ function App() {
   const handleSetName = async () => {
     if (!contract || !account) return;
     try {
-      await contract.methods.setGreeting(newName).send({ from: account, gas: 3000000 });
+      await contract.methods.setName(newName).send({ from: account, gas: 3000000 });
       setNewName("");
     } catch (error) {
       console.error("Error setting name:", error);
@@ -55,7 +55,7 @@ function App() {
   const handleGetName = async () => {
     if (!contract) return;
     try {
-      const name = await contract.methods.getGreeting().call();
+      const name = await contract.methods.getName().call();
       setStoredName(name);
     } catch (error) {
       console.error("Error getting name:", error);
@@ -75,7 +75,7 @@ function App() {
         type="text"
         value={newName}
         onChange={handleInputChange}
-        placeholder="Enter your name here"
+        placeholder="Enter your name"
         className="box"
       />
       <button onClick={handleSetName}>Set Name</button>
@@ -84,7 +84,7 @@ function App() {
         type="text"
         value={storedName}
         readOnly
-        placeholder="Retrieved name will appear here"
+        placeholder="Retrieved name"
         className="box"
       />
     </div>
