@@ -1,6 +1,6 @@
 # T-Ruffle
 
-_**Author: @Jaz-3-0**_
+_**Author: @0xJonaseb11**_
 
 ## About
 
@@ -43,4 +43,4 @@ truffle migrate --network sepolia --reset
 
 ----------
 
-@Jaz-3-0
+@0xJonaseb11
